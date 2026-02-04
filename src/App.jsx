@@ -1,13 +1,13 @@
-
+import { Assessment } from "./components/Assessment";
 
 function App() {
-
-
   return (
-    <>
-      <h1 className="text-3xl font-bold text-red-500">hello</h1>
-    </>
-  )
+    <main className="min-h-screen bg-gray-50 px-4 py-10">
+      <div className="mx-auto flex max-w-2xl justify-center">
+        <Assessment />
+      </div>
+    </main>
+  );
 }
 
-export default App
+export default App;
