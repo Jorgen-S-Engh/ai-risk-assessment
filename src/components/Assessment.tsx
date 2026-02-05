@@ -1,8 +1,19 @@
 import { useMemo, useState } from "react";
-import { questions, results, type Risk } from "../data";
+import { questions, results, riskLabel, type Risk } from "../data";
 import { computeMaxScore, riskFromScore } from "../risk";
 
-type Answers = Record<string, string>; 
+type Answers = Record<string, string>;
+
+
+function FooterDisclaimer() {
+  return (
+    <footer className="border-t border-slate-200 pt-4 text-xs text-slate-500">
+      Veilederen gir kun en indikativ vurdering basert på oppgitte svar og
+      erstatter ikke juridisk rådgivning eller en fullstendig vurdering etter
+      KI-forordningen.
+    </footer>
+  );
+}
 
 export function Assessment() {
   const totalSteps = questions.length;
@@ -64,7 +75,7 @@ export function Assessment() {
     return (
       <section className="w-full max-w-2xl rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
         <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
-          Result
+          Resultat
         </p>
 
         <h2 className="mt-1 text-2xl font-semibold text-gray-900">
@@ -72,8 +83,16 @@ export function Assessment() {
         </h2>
 
         <p className="mt-2 text-sm text-gray-600">
-          Risk level:{" "}
-          <span className="font-medium text-gray-900">{finalRisk}</span>
+          Risikonivå:{" "}
+          <span
+  className="inline-block rounded-full px-3 py-1 text-xs font-medium"
+  style={{
+    backgroundColor: "rgba(52,95,237,0.1)",
+    color: "var(--nkom-blue-900)",
+  }}
+>
+  {riskLabel[finalRisk]}
+</span>
         </p>
 
         <div className="mt-4 space-y-3 text-sm text-gray-800">
@@ -83,7 +102,7 @@ export function Assessment() {
         </div>
 
         <div className="mt-5">
-          <h3 className="text-sm font-semibold text-gray-900">Next actions</h3>
+          <h3 className="text-sm font-semibold text-gray-900">Neste steg</h3>
           <ul className="mt-2 list-disc pl-5 text-sm text-gray-800">
             {copy.actions.map((a) => (
               <li key={a}>{a}</li>
@@ -95,12 +114,20 @@ export function Assessment() {
           <button
             type="button"
             onClick={onReset}
-            className="rounded-xl bg-gray-900 px-4 py-2 text-sm font-semibold text-white hover:bg-gray-800"
+            className={[
+              "rounded-xl px-4 py-2 text-sm font-semibold text-white",
+              "transition-colors duration-150",
+              "focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--nkom-blue-500)]",
+              "bg-[var(--nkom-blue-900)] hover:bg-[var(--nkom-blue-700)]",
+            ].join(" ")}
           >
-            Start over
+            Begynn på nytt
           </button>
+
         </div>
+        <FooterDisclaimer />
       </section>
+      
     );
   }
 
@@ -111,12 +138,10 @@ export function Assessment() {
           KI-veileder – Hvilket risikonivå er min KI-løsning?
         </h1>
         <p className="mt-1 text-sm text-gray-600">
-Dette er en forenklet veileder basert på KI-forordningens risikobaserte modell.
-Resultatet er veiledende og erstatter ikke juridisk vurdering.
+          Dette er en forenklet veileder basert på KI-forordningens risikobaserte modell.
+          Resultatet er veiledende og erstatter ikke juridisk vurdering.
         </p>
       </header>
-
-      {/* Progress */}
       <div>
         <div className="mb-2 flex items-center justify-between text-sm text-gray-600">
           <span>
@@ -133,8 +158,6 @@ Resultatet er veiledende og erstatter ikke juridisk vurdering.
         </div>
 
       </div>
-
-      {/* Question card */}
       <section className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
         <h2 className="text-lg font-semibold text-gray-900">
           {currentQuestion.title}
@@ -163,9 +186,10 @@ Resultatet er veiledende og erstatter ikke juridisk vurdering.
                 key={opt.id}
                 className={[
                   "flex cursor-pointer items-start gap-3 rounded-xl border p-4 transition",
+
                   checked
-                    ? "border-gray-900 ring-1 ring-gray-900"
-                    : "border-gray-200 hover:border-gray-300",
+                    ? "border-[var(--nkom-blue-700)] bg-white"
+                    : "border-slate-200 bg-white hover:border-slate-300",
                 ].join(" ")}
               >
                 <input
@@ -188,29 +212,34 @@ Resultatet er veiledende og erstatter ikke juridisk vurdering.
             disabled={stepIndex === 0}
             className={[
               "rounded-xl px-4 py-2 text-sm font-medium",
+              "transition-colors duration-150",
+              "focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--nkom-blue-500)]",
               stepIndex === 0
-                ? "cursor-not-allowed text-gray-400"
-                : "text-gray-700 hover:bg-gray-100",
+                ? "cursor-not-allowed text-slate-400"
+                : "text-[var(--nkom-blue-900)] hover:bg-slate-100",
             ].join(" ")}
           >
             Tilbake
           </button>
-
           <button
             type="button"
             onClick={onNext}
             disabled={!selectedOptionId}
             className={[
               "rounded-xl px-4 py-2 text-sm font-semibold",
+              "transition-colors duration-150",
+              "focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--nkom-blue-500)]",
               !selectedOptionId
-                ? "cursor-not-allowed bg-gray-200 text-gray-500"
-                : "bg-gray-900 text-white hover:bg-gray-800",
+                ? "cursor-not-allowed bg-slate-200 text-slate-500"
+                : "bg-[var(--nkom-blue-900)] text-white hover:bg-[var(--nkom-blue-700)]",
             ].join(" ")}
           >
             {stepIndex === totalSteps - 1 ? "Fullfør" : "Neste"}
           </button>
+
         </div>
       </section>
+      <FooterDisclaimer />
     </div>
   );
 }

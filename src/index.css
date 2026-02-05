@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+:root {
+  --nkom-blue-900: #00205b;
+  --nkom-blue-700: #405884;
+  --nkom-blue-500: #345fed;
+}

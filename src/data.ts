@@ -22,6 +22,15 @@ export type ResultCopy = {
   actions: string[];
 };
 
+
+export const riskLabel: Record<Risk, string> = {
+  unsure: "Usikker",
+  minimal: "Minimal",
+  limited: "Begrenset",
+  high: "Høy",
+  unacceptable: "Uakseptabel",
+};
+
 export type ResultsMap = Record<Risk, ResultCopy>;
 
 export const questions: Question[] = [
