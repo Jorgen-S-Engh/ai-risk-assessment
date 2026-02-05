@@ -1,19 +1,11 @@
 import { useMemo, useState } from "react";
 import { questions, results, riskLabel, type Risk } from "../data";
 import { computeMaxScore, riskFromScore } from "../risk";
+import FooterDisclaimer from "./Footer";
 
 type Answers = Record<string, string>;
 
 
-function FooterDisclaimer() {
-  return (
-    <footer className="border-slate-200 pt-4 text-xs text-slate-500">
-      Veilederen gir kun en indikativ vurdering basert på oppgitte svar og
-      erstatter ikke juridisk rådgivning eller en fullstendig vurdering etter
-      KI-forordningen.
-    </footer>
-  );
-}
 
 export function Assessment() {
   const totalSteps = questions.length;
@@ -80,14 +72,14 @@ export function Assessment() {
         <p className="mt-2 text-sm text-gray-600">
           Risikonivå:{" "}
           <span
-  className="inline-block rounded-full px-3 py-1 text-xs font-medium"
-  style={{
-    backgroundColor: "rgba(52,95,237,0.1)",
-    color: "var(--nkom-blue-900)",
-  }}
->
-  {riskLabel[finalRisk]}
-</span>
+            className="inline-block rounded-full px-3 py-1 text-xs font-medium"
+            style={{
+              backgroundColor: "rgba(52,95,237,0.1)",
+              color: "var(--nkom-blue-900)",
+            }}
+          >
+            {riskLabel[finalRisk]}
+          </span>
         </p>
 
         <div className="mt-4 space-y-3 text-sm text-gray-800">
@@ -122,7 +114,7 @@ export function Assessment() {
         </div>
         <FooterDisclaimer />
       </section>
-      
+
     );
   }
 
@@ -171,7 +163,7 @@ export function Assessment() {
         ) : null}
 
         <fieldset className="mt-5 space-y-3">
-          <legend className="sr-only">Select one option</legend>
+          <legend className="sr-only">Velg ett valg</legend>
 
           {currentQuestion.options.map((opt) => {
             const checked = selectedOptionId === opt.id;
