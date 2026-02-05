@@ -7,7 +7,7 @@ type Answers = Record<string, string>;
 
 function FooterDisclaimer() {
   return (
-    <footer className="border-t border-slate-200 pt-4 text-xs text-slate-500">
+    <footer className="border-slate-200 pt-4 text-xs text-slate-500">
       Veilederen gir kun en indikativ vurdering basert på oppgitte svar og
       erstatter ikke juridisk rådgivning eller en fullstendig vurdering etter
       KI-forordningen.
@@ -28,10 +28,6 @@ export function Assessment() {
   const selectedOption = useMemo(() => {
     return currentQuestion.options.find((o) => o.id === selectedOptionId);
   }, [currentQuestion.options, selectedOptionId]);
-
-  const currentMaxScore = useMemo(() => {
-    return computeMaxScore(questions, answers);
-  }, [answers]);
 
   function onSelect(optionId: string) {
     setAnswers((prev) => ({ ...prev, [currentQuestion.id]: optionId }));
@@ -67,7 +63,6 @@ export function Assessment() {
 
   const stepNumber = stepIndex + 1;
   const pct = Math.round((stepNumber / totalSteps) * 100);
-  const highestRiskSoFar = riskFromScore(currentMaxScore);
 
   if (finalRisk) {
     const copy = results[finalRisk];
